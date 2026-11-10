@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LINKERO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar__inner">
+      <a class="brand" href="./">LINKERO</a>
+      <button class="btn btn--primary" id="btn-agregar" type="button">
+        <span aria-hidden="true">+</span> Agregar link
+      </button>
+    </div>
+  </header>
+
+  <div class="demo-banner" id="demo-banner" hidden>
+    Modo demo: los links se guardan solo en este navegador hasta conectar Supabase.
+  </div>
+
+  <main class="page">
+    <section class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.96 12.06l4.24 4.24-1.4 1.4-4.24-4.24A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
+        <input id="buscador" type="search" placeholder="Buscar por nombre, categoría o descripción…" autocomplete="off" />
+      </div>
+      <label class="sort">
+        <span>Ordenar</span>
+        <select id="orden">
+          <option value="recientes">Recientes</option>
+          <option value="usados">Más usados</option>
+          <option value="az">A – Z</option>
+        </select>
+      </label>
+    </section>
+
+    <nav class="chips" id="atajos" aria-label="Ir a una categoría"></nav>
+
+    <div id="secciones"></div>
+    <div class="vacio" id="vacio" hidden></div>
+  </main>
+
+  <dialog class="modal" id="modal-link">
+    <form method="dialog" id="form-link" novalidate>
+      <h2 id="modal-titulo">Agregar link</h2>
+      <label class="campo">
+        <span>Nombre</span>
+        <input name="nombre" required maxlength="80" placeholder="Ej. Métricas" />
+      </label>
+      <label class="campo">
+        <span>Link</span>
+        <input name="url" required placeholder="https://…" inputmode="url" />
+      </label>
+      <label class="campo">
+        <span>Categoría</span>
+        <select name="categoria" id="select-categoria" required></select>
+      </label>
+
+      <fieldset class="nueva-cat" id="nueva-cat" hidden>
+        <legend>Nueva categoría</legend>
+        <input name="nuevaCategoria" maxlength="40" placeholder="Nombre de la categoría" aria-label="Nombre de la nueva categoría" />
+        <div class="colores" id="colores" role="radiogroup" aria-label="Color de la categoría"></div>
+        <button class="link-btn" type="button" id="btn-cancelar-cat">Elegir una existente</button>
+      </fieldset>
+
+      <label class="campo">
+        <span>Descripción <em>(opcional)</em></span>
+        <textarea name="descripcion" rows="2" maxlength="160" placeholder="Para qué sirve este link"></textarea>
+      </label>
+      <p class="error" id="form-error" hidden></p>
+      <div class="modal__acciones">
+        <button class="btn btn--danger" type="button" id="btn-eliminar" hidden>Eliminar</button>
+        <span class="spacer"></span>
+        <button class="btn" type="button" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn--primary" type="submit" id="btn-guardar">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
